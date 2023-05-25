@@ -112,10 +112,36 @@ data2 = {
     "F": {"valeur": 4, "poids": 1}
     }
 
+items3 = ["A","B","C","D","E","F","G","H","I","J", "K", "L","M","N" ]
+
+data3 = {
+    "A": {"valeur": 4, "poids": 2},
+    "B": {"valeur": 3, "poids": 2},
+    "C": {"valeur": 8, "poids": 5},
+    "D": {"valeur": 5, "poids": 2},
+    "E": {"valeur": 10, "poids": 7},
+    "F": {"valeur": 7, "poids": 4},
+    "G": {"valeur": 1, "poids": 1},
+    "H": {"valeur": 6, "poids": 4},
+    "I": {"valeur": 3, "poids": 2},
+    "J": {"valeur": 3, "poids": 1},
+    "K": {"valeur": 6, "poids": 4},
+    "L": {"valeur": 12, "poids": 20},
+    "M": {"valeur": 2, "poids": 2},
+    "N": {"valeur": 4, "poids": 1}
+
+}
+
+
 sac = 40
+sac3 = 26
+
 n = 4
 
 print("\nA) Les objets:")
 get_objets(items, data, sac, n)
 print("\nB) Les objets:")
 get_objets(items2, data2, sac, n)
+
+print("\nC) Les objets:")
+get_objets(items3, data3, sac3, n)
