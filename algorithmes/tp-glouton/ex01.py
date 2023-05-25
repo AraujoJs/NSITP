@@ -1,3 +1,18 @@
+
+
+
+
+
+"""
+Élève: ARAUJO José
+Exercice: Algo_Glouton_2022.pdf
+Répondu: Questions 1 et 2
+J'ai résolu ces algorithms avec des dictionnaires mais aussi avec des listes, comme demandé dans l'annoncé.
+état: parfait
+
+"""
+
+
 """
 Exercice 1 : Problème du rendu de monnaie
 Écrire et tester le programme Python permettant le rendu de monnaie proposé
@@ -93,6 +108,35 @@ def get_objets(items, data, sac, n):
 
     print(inside)
 
+def get_objets2(objects, valeurs, poids, sac):
+    inside = []
+    i = 0
+
+    while sac > 0:
+        item = objects[i]
+
+        if poids[i] <= sac:
+            sac -= poids[i]
+            inside.append(item)
+        i += 1
+
+    print(inside)
+
+def tri_selection(objets, valeurs, poids):
+    n = len(objets)
+    if n > 1:
+        for i in range(0, n-1):
+            min = i
+            for j in range(i+1, n):
+                if valeurs[j] > valeurs[min]:
+                    min = j
+            valeurs[i], valeurs[min] = valeurs[min], valeurs[i]
+            poids[i], poids[min] = poids[min], poids[i]
+            objets[i], objets[min] = objets[min], objets[i]
+        
+    return  {"objet": objets, "valeurs": valeurs, "poids": poids}
+
+
 items = ["A", "B", "C", "D", "E", "F"]
 data = {
     "A": {"valeur": 30, "poids": 39},
@@ -132,16 +176,22 @@ data3 = {
 
 }
 
-
 sac = 40
 sac3 = 26
-
 n = 4
 
 print("\nA) Les objets:")
 get_objets(items, data, sac, n)
+
 print("\nB) Les objets:")
 get_objets(items2, data2, sac, n)
 
 print("\nC) Les objets:")
-get_objets(items3, data3, sac3, n)
+
+objets = ["A","B","C","D","E","F","G","H","I","J", "K", "L","M","N" ]
+valeurs = [4, 3, 8, 5, 10, 7, 1, 6, 3, 3, 6, 12, 2, 4]
+poids = [2, 2, 5, 2, 7, 4, 1, 4, 2, 1, 4, 20, 2, 1]
+sac = 26
+
+trie = tri_selection(objets, valeurs, poids)
+get_objets2(objets, valeurs, poids, sac)
