@@ -157,7 +157,7 @@ def case_mouvement_pion(pion, direction):
         return pion
 
 def effectuer_mouvements(roi, pion, roi_mov, pion_mov):
-    global premier_mov
+    global premier_mov, roi_position, pion_position
 
     roi_position = roi
     pion_position = pion
@@ -166,22 +166,21 @@ def effectuer_mouvements(roi, pion, roi_mov, pion_mov):
     roi_case = roi_est_valide(roi_mov)
 
     if premier_mov:
-        if pion_case == (0, 0):
+        if pion_case == (0, 0) or pion_case == pion_position:
             print("Mouvement interdit!")
-        elif pion_case == pion_position:
-            print("Case occupée!")
+            return False
         else:
             deplacer_pion(pion_position, pion_case)
             premier_mov = False
+            return True
     else:
-        if pion_case == (0,0) or roi_case == (0, 0):
-            print("Mouvement interdit, ressayez!")
+        if pion_case == (0,0) or roi_case == (0, 0) or pion_case == pion_position:
+            print("Mouvement interdit!")
             return False
         else:
             deplacer_roi(roi_position, roi_case)
             deplacer_pion(pion_position, pion_case)
-    return True
-
+            return True
 
 def case_est_libre(case):
     return plateau[case[0]][case[1]] == 0
@@ -210,8 +209,8 @@ def dessiner_plateau(premiere_fois=False):
         print("-" * 26)
         ligne = ""
 
-def prendre_piece(table, j, i):
-    piece = table[j][i]
+def prendre_piece(table, y, x):
+    piece = table[y][x]
     if piece == 1:
         return "X"
     elif piece == 2:
@@ -265,28 +264,33 @@ def game_loop():
         pion_position = (int(pion[1]), index[pion[0]])
 
         free = case_est_libre(pion_position)
+        piece = prendre_piece(plateau, pion_position[0], pion_position[1])
 
         if free:
             print("Mouvement invalide!")
 
         else:
-            cases = verifier_cases_valides_pion(pion_position)
-            if cases.count((0,0)) == len(cases):
-                fini = True
+            if (piece == "X" and x_de_jouer) or (piece == "O" and not x_de_jouer):
+                cases = verifier_cases_valides_pion(pion_position)
+                if cases.count((0,0)) == len(cases):
+                    fini = True
 
-            if fini:
-                if x_de_jouer:
-                    fini_game("O")
-                else:
-                    fini_game("X")
-            else:
-                success = effectuer_mouvements(roi_position, pion_position, roi_mov, pion_mov)
-                if success:
+                if fini:
                     if x_de_jouer:
-                        x_de_jouer = False
+                        fini_game("O")
                     else:
-                        x_de_jouer = True
-                dessiner_plateau()
+                        fini_game("X")
+                else:
+                    success = effectuer_mouvements(roi_position, pion_position, roi_mov, pion_mov)
+                    if success:
+                        if x_de_jouer:
+                            x_de_jouer = False
+                        else:
+                            x_de_jouer = True
+                    dessiner_plateau()
+
+            else:
+                print("Pion interdit pour toi!")
 
 
 def input_valid(lance):
